@@ -16,7 +16,7 @@ case class HttpStreamSource(httpServletUrl: String,
                             timestampColumnName: String = "_TIMESTAMP_")
 	extends SparkStreamSourceAdapter with StreamSource {
 	def createSparkStreamSource(ctx: JobContext): SparkHttpStreamSource =
-		new SparkHttpStreamSource(ctx.sqlContext(),
+		new SparkHttpStreamSource(ctx.sqlContext,
 			httpServletUrl,
 			topic,
 			msPollingPeriod,

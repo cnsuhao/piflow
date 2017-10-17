@@ -36,7 +36,7 @@ abstract class SparkSourceAdapter extends BatchSource {
 	var _spark: SparkSession = null;
 
 	override def init(ctx: JobContext): Unit = {
-		_spark = ctx.sparkSession();
+		_spark = ctx.sparkSession;
 	}
 
 	def loadBatch(): Dataset[_] = {

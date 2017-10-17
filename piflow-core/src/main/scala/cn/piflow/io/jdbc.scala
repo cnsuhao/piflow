@@ -18,7 +18,7 @@ class JdbcTableSink(parameters: Map[String, String]) extends BatchSink {
 	var _outputMode: OutputMode = null;
 
 	override def init(outputMode: OutputMode, ctx: JobContext) = {
-		_sqlContext = ctx.sqlContext();
+		_sqlContext = ctx.sqlContext;
 		_outputMode = outputMode;
 	}
 

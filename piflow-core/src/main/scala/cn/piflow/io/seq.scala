@@ -12,7 +12,7 @@ case class SeqAsSource[X: Encoder](t: X*) extends BatchSource {
 	var _spark: SparkSession = null;
 
 	override def init(ctx: JobContext): Unit = {
-		_spark = ctx.sparkSession();
+		_spark = ctx.sparkSession;
 	}
 
 	override def destroy() {}

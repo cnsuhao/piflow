@@ -57,6 +57,7 @@ trait Runner {
 }
 
 object Runner {
+	//TODO: create different instances
 	def sparkRunner(spark: SparkSession) = SparkRunner;
 }
 

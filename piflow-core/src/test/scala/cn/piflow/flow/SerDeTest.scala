@@ -1,7 +1,5 @@
 package cn.piflow.flow
 
-;
-
 import java.nio.ByteBuffer
 
 import cn.piflow.FlowGraph
@@ -29,7 +27,7 @@ class SerDeTest {
 	@Test
 	def test2() {
 		val fg = new FlowGraph();
-		val node1 = fg.createNode(DoLoad(SeqAsSource(1, 2, 3, 4)));
+		val node1 = fg.createNode(DoLoad(SeqAsSource(1 to 4)));
 		val node2 = fg.createNode(DoMap[Int, Int](_ + 1));
 		val mem = MemorySink();
 		val node3 = fg.createNode(DoWrite(mem));

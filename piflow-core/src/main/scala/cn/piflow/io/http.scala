@@ -1,7 +1,6 @@
 package cn.piflow.io
 
 import cn.piflow.JobContext
-import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.streaming.OutputMode
 import org.apache.spark.sql.execution.streaming.http.{HttpStreamSource => SparkHttpStreamSource}
 import org.apache.spark.sql.execution.streaming.http.{HttpStreamSink => SparkHttpStreamSink}

@@ -16,6 +16,7 @@
         <jetty.version>9.0.0.M0</jetty.version>
     </properties>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.github.bluejoe2008/spark-http-stream -->
         <dependency>
             <groupId>com.github.bluejoe2008</groupId>
             <artifactId>spark-http-stream</artifactId>

@@ -36,7 +36,7 @@ class DslTest {
 	def testFlowSequence() {
 		val ref1 = SinkRef();
 
-		val line1 = SeqAsSource(1, 2, 3, 4) > "_1:_1" >
+		val line1 = SeqAsSource(1 to 4) > "_1:_1" >
 			DoMap[Int, Int](_ + 1) >
 			MemorySink() % ref1;
 
@@ -46,7 +46,7 @@ class DslTest {
 		Assert.assertEquals(ref1.as[MemorySink], ref1.get);
 		Assert.assertEquals(classOf[DoWrite], ref1.processor.getClass);
 
-		val line2 = SeqAsSource(1, 2, 3, 4) >
+		val line2 = SeqAsSource(1 to 4) >
 			DoMap[Int, Int](_ + 1) >
 			MemorySink();
 
@@ -60,12 +60,12 @@ class DslTest {
 		val ref2 = ProcessorRef();
 		val ref3 = SinkRef();
 
-		val line = SeqAsSource(1, 2, 3, 4) % ref1 > "_1:_1" >
+		val line = SeqAsSource(1 to 4) % ref1 > "_1:_1" >
 			DoMap[Int, Int](_ + 1) % ref2 >
 			MemorySink() % ref3;
 
 		runner.run(line);
-		Assert.assertEquals(SeqAsSource(1, 2, 3, 4), ref1.get);
+		Assert.assertEquals(SeqAsSource(1 to 4), ref1.get);
 		Assert.assertEquals(Seq(2, 3, 4, 5), ref3.as[MemorySink].as[Int]);
 		Assert.assertEquals(ref3.as[MemorySink], ref3.as[MemorySink]);
 		Assert.assertEquals(classOf[DoLoad], ref1.processor.getClass);
@@ -79,7 +79,7 @@ class DslTest {
 		val ref2 = SinkRef();
 		val forkNode = ProcessorRef();
 
-		val line = SeqAsSource(1, 2, 3, 4) >
+		val line = SeqAsSource(1 to 4) >
 			DoFork[Int](_ % 2 == 0, _ % 2 == 1) % forkNode >
 			MemorySink() % ref1;
 
@@ -97,12 +97,12 @@ class DslTest {
 		val mem = SinkRef();
 		val zipNode = ProcessorRef();
 
-		val line1 = SeqAsSource(1, 2, 3, 4) >
+		val line1 = SeqAsSource(1 to 4) >
 			DoMap[Int, Int](_ + 10) >
 			DoZip[Int, String]() % zipNode >
 			MemorySink() % mem;
 
-		val line2 = SeqAsSource("a", "b", "c", "d") >
+		val line2 = SeqAsSource(Seq("a", "b", "c", "d")) >
 			DoMap[String, String](_.toUpperCase()) > "_1:_2" >
 			zipNode;
 
@@ -118,10 +118,10 @@ class DslTest {
 		val mem = SinkRef();
 		val zipNode = ProcessorRef();
 
-		val line1 = SeqAsSource(1, 2, 3, 4) >
+		val line1 = SeqAsSource(1 to 4) >
 			DoMap[Int, Int](_ + 10);
 
-		val line2 = SeqAsSource("a", "b", "c", "d") >
+		val line2 = SeqAsSource(Seq("a", "b", "c", "d")) >
 			DoMap[String, String](_.toUpperCase());
 
 		val line3 = Seq(line1 > "_1:_1", line2 > "_1:_2") >
@@ -140,13 +140,13 @@ class DslTest {
 		val mem = SinkRef();
 		val mergeNode = ProcessorRef();
 
-		val line1 = SeqAsSource(1, 2, 3, 4) >
+		val line1 = SeqAsSource(1 to 4) >
 			DoFork[Int](_ % 2 == 0, _ % 2 == 1) >
 			DoMap[Int, String](x ⇒ (x + 10).toString()) >
 			DoMerge[String]() % mergeNode >
 			MemorySink() % mem;
 
-		SeqAsSource("a", "b", "c", "d") >
+		SeqAsSource(Seq("a", "b", "c", "d")) >
 			DoMap[String, String](_.toUpperCase()) >
 			(DoFilter[String](_.charAt(0) <= 'B') > "_1:_2") >
 			mergeNode;

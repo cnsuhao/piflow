@@ -20,7 +20,7 @@ class BatchFlowTest {
 	@Test
 	def testFlowSequence() = {
 		val fg = new FlowGraph();
-		val node1 = fg.createNode(DoLoad(SeqAsSource(1, 2, 3, 4)));
+		val node1 = fg.createNode(DoLoad(SeqAsSource(1 to 4)));
 		val node2 = fg.createNode(DoMap[Int, Int](_ + 1));
 		val mem = MemorySink();
 		val node3 = fg.createNode(DoWrite(mem));
@@ -54,7 +54,7 @@ class BatchFlowTest {
 	@Test
 	def testFlowFork() = {
 		val fg = new FlowGraph();
-		val node1 = fg.createNode(DoLoad(SeqAsSource(1, 2, 3, 4)));
+		val node1 = fg.createNode(DoLoad(SeqAsSource(1 to 4)));
 		val node2 = fg.createNode(DoFork[Int](_ % 2 == 0, _ % 2 == 1));
 		val mem1 = MemorySink();
 		val node3 = fg.createNode(DoWrite(mem1));
@@ -74,8 +74,8 @@ class BatchFlowTest {
 	@Test
 	def testFlowMerge() = {
 		val fg = new FlowGraph();
-		val node1 = fg.createNode(DoLoad(SeqAsSource(1, 2, 3, 4)));
-		val node2 = fg.createNode(DoLoad(SeqAsSource("a", "b", "c", "d")));
+		val node1 = fg.createNode(DoLoad(SeqAsSource(1 to 4)));
+		val node2 = fg.createNode(DoLoad(SeqAsSource(Seq("a", "b", "c", "d"))));
 		val node3 = fg.createNode(DoMap[Int, Int](_ + 10));
 		val node4 = fg.createNode(DoMap[String, String](_.toUpperCase()));
 		//merge
@@ -98,8 +98,8 @@ class BatchFlowTest {
 	@Test
 	def testFlowForkMerge() = {
 		val fg = new FlowGraph();
-		val node1 = fg.createNode(DoLoad(SeqAsSource(1, 2, 3, 4)));
-		val node2 = fg.createNode(DoLoad(SeqAsSource("a", "b", "c", "d")));
+		val node1 = fg.createNode(DoLoad(SeqAsSource(1 to 4)));
+		val node2 = fg.createNode(DoLoad(SeqAsSource(Seq("a", "b", "c", "d"))));
 		val node3 = fg.createNode(DoMap[String, String](_.toUpperCase()));
 		//fork
 		val node4 = fg.createNode(DoFork[Int](_ % 2 == 0, _ % 2 == 1));

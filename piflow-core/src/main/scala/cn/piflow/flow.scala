@@ -53,6 +53,7 @@ trait Processor {
 
 	def context = _processorContext;
 
+	//TODO: should not invoked by processor itself
 	def notifyEvent(event: ProcessorEvent) = _processorContext.notifyEvent(
 		EventFromProcessor(_processorContext.flowNodeId, event));
 
@@ -64,6 +65,7 @@ trait Processor {
 
 	def getOutPortNames(): Seq[String];
 
+	//TODO: use Countable traits
 	def performN2N(inputs: Map[String, _]): Map[String, _];
 
 	def DEFAULT_IN_PORT_NAMES(n: Int): Seq[String] = {

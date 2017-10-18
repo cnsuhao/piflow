@@ -55,6 +55,7 @@ case class DoWrite(sink: Sink, outputMode: OutputMode = OutputMode.Complete)
 		def addBatch(batchId: Long, data: DataFrame): Unit = {
 			ss.writeBatch(batchId, data);
 			//TODO: too expensive count()
+			//TODO: performed by call on countable results
 			notifyEvent(ProcessedRows(Some(data.count()), None));
 		}
 	}

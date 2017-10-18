@@ -22,14 +22,14 @@ class JobManagerTest {
 	@Test
 	def test() = {
 		val fg = new FlowGraph();
-		val node1 = fg.createNode(DoLoad(SeqAsSource(1, 2, 3, 4)));
-		val node2 = fg.createNode(DoMap[Int, Int](_ + 1));
-		val node3 = fg.createNode(DoWrite(ConsoleSink()));
-		val node4 = fg.createNode(DoSleep(3000));
+		val node1 = fg.createNode(DoLoad(SeqAsSource(0L to 10000L)));
+		val node2 = fg.createNode(DoMap[Long, Long](_ + 1));
+		val node3 = fg.createNode(DoMap[Long, Long](_ * 2));
+		val node4 = fg.createNode(DoWrite(ConsoleSink()));
 
 		fg.link(node1, node2, ("_1", "_1"));
 		fg.link(node2, node3, ("_1", "_1"));
-		fg.link(node3, node4, (null, null));
+		fg.link(node3, node4, ("_1", "_1"));
 		fg.show();
 
 		val runner = Runner.sparkRunner(spark);
@@ -50,11 +50,11 @@ class JobManagerTest {
 		val sj7 = runner.schedule(fg, Start.now, Repeat.daily(13, 0));
 		val sj8 = runner.schedule(fg, Start.now, Repeat.cronedly("* * * * * ?"));
 
-		Thread.sleep(5000); //0.5s
+		Thread.sleep(2200); //1s
 
 		val stat = runner.getStatManager();
-		man.getRunningJobs().foreach { x =>
-			stat.getStat(x.getId).show();
+		man.getHistoricExecutions().map(_.getId()).union(man.getRunningJobs().map(_.getId())).foreach {
+			stat.getStat(_).show();
 		}
 
 		runner.stop();

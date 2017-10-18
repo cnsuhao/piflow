@@ -7,7 +7,7 @@ import org.apache.spark.sql.{Dataset, Encoder, SparkSession}
 	* @author bluejoe2008@gmail.com
 	*/
 
-case class SeqAsSource[X: Encoder](t: X*) extends BatchSource {
+case class SeqAsSource[X: Encoder](t: Seq[X]) extends BatchSource {
 	override def toString = this.getClass.getSimpleName;
 	var _spark: SparkSession = null;
 

@@ -20,10 +20,13 @@ object PRELOAD_CODES {
 	val jobs = new cn.piflow.shell.cmd.JobCmd(runner);
 	val store = new cn.piflow.shell.cmd.StoreCmd(runner);
 
-	private def TEST_IMPORTS_WILL_NEVER_USED() {
+	private def THIS_METHOD_WILL_NEVER_BE_USED_ONLY_FOR_SYNTAX_CHECK() {
 		if (false) {
+			runner
+			jobs
+			store
 			new Date();
-			val pl = SeqAsSource(1, 2, 3, 4) > DoMap[Int, Int](_ + 1) > DoSleep(30000) > ConsoleSink();
+			val pl = SeqAsSource(1 to 4) > DoMap[Int, Int](_ + 1) > DoSleep(30000) > ConsoleSink();
 			asGraph(pl);
 			pl !;
 			pl !@ (Start.now)

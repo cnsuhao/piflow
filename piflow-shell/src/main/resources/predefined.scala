@@ -15,16 +15,18 @@ object PRELOAD_CODES {
 	spark.conf.set("spark.sql.streaming.checkpointLocation", "/tmp/");
 
 	import spark.implicits._;
+	import sys.process._;
 
 	implicit val runner = Runner.sparkRunner(spark);
 	val jobs = new cn.piflow.shell.cmd.JobCmd(runner);
 	val store = new cn.piflow.shell.cmd.StoreCmd(runner);
 
-	private def THIS_METHOD_WILL_NEVER_BE_USED_ONLY_FOR_SYNTAX_CHECK() {
+	private def THIS_METHOD_WILL_NEVER_BE_CALLED_ONLY_FOR_SYNTAX_CHECK() {
 		if (false) {
-			runner
-			jobs
-			store
+			"ls" !;
+			println(runner);
+			println(jobs);
+			println(store);
 			new Date();
 			val pl = SeqAsSource(1 to 4) > DoMap[Int, Int](_ + 1) > DoSleep(30000) > ConsoleSink();
 			asGraph(pl);

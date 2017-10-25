@@ -41,7 +41,7 @@ class Shell {
 		}
 
 		val settings = new Settings;
-
+		settings.feature.value = false;
 		settings.Yreplsync.value = true;
 		//use when launching normally outside SBT
 		settings.usejavacp.value = true;

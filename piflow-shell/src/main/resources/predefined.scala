@@ -1,5 +1,4 @@
 import java.util._
-
 import cn.piflow._
 import cn.piflow.io._
 import cn.piflow.dsl._
@@ -7,6 +6,7 @@ import cn.piflow.processor._
 import cn.piflow.processor.ds._
 import cn.piflow.shell._
 import org.apache.spark.sql._
+import sys.process._;
 
 object PRELOAD_CODES {
 	implicit val spark = SparkSession.builder.master("local[4]")
@@ -15,7 +15,6 @@ object PRELOAD_CODES {
 	spark.conf.set("spark.sql.streaming.checkpointLocation", "/tmp/");
 
 	import spark.implicits._;
-	import sys.process._;
 
 	implicit val runner = Runner.sparkRunner(spark);
 	val jobs = new cn.piflow.shell.cmd.JobCmd(runner);

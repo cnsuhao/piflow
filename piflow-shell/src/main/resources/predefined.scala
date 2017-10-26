@@ -27,7 +27,7 @@ object PRELOAD_CODES {
 			println(jobs);
 			println(store);
 			new Date();
-			val pl = SeqAsSource(1 to 4) > DoMap[Int, Int](_ + 1) > DoSleep(30000) > ConsoleSink();
+			val pl = SeqAsSource(1 to 1000) > DoMap[Int, Int](_ + 1) > ConsoleSink();
 			asGraph(pl);
 			pl !;
 			pl !@ (Start.now)

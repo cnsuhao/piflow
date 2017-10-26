@@ -27,7 +27,7 @@ mvn clean test -Prun-shell
 
 Now, piflow-shell will be started in which you can type commands:
 ```
-πFlow> SeqAsSource(1 to 1000) > "_1:_1" > DoMap[Int, Int](_ + 1) > ConsoleSink()
+πFlow> SeqAsSource(1 to 1000) > DoMap[Int, Int](_ + 1) > ConsoleSink()
 πFlow> res0!
 ```
 

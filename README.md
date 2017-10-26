@@ -13,18 +13,19 @@ a full big data flow system involving online data collection, real time computat
 
 # Running piflow-shell with maven
 
-First, compile all projects:
+Since piflow-shell depends on piflow-core, so compile piflow-core project first:
 ```
+cd piflow-core
 mvn clean compile -DskipTests
 ```
 
 Then, run mvn with following arguments:
 ```
 cd ./piflow-shell
-mvn test -Prun-shell
+mvn clean test -Prun-shell
 ```
 
-piflow-shell will be started in which you can type commands:
+Now, piflow-shell will be started in which you can type commands:
 ```
 πFlow> SeqAsSource(1 to 1000) > "_1:_1" > DoMap[Int, Int](_ + 1) > ConsoleSink()
 πFlow> res0!

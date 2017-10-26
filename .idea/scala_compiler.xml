@@ -2,6 +2,6 @@
 <project version="4">
   <component name="ScalaCompilerConfiguration">
     <option name="implicitConversions" value="true" />
-    <profile name="Maven 1" modules="piflow-shell,piflow-core,piflow-project,piflow-webui" />
+    <profile name="Maven 1" modules="piflow-project,piflow-core,piflow-shell,piflow-webui" />
   </component>
 </project>

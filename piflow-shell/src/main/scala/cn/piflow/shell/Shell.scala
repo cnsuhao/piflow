@@ -1,13 +1,13 @@
 package cn.piflow.shell
 
-import cn.piflow.Runner
+import cn.piflow.{Logging, Runner}
 import org.apache.commons.io.IOUtils
 
 import scala.tools.nsc.Settings
 import scala.tools.nsc.interpreter.ILoop
 import scala.xml.XML
 
-class Shell {
+class Shell extends Logging {
 	lazy val properties = {
 		//load properties from properties.xml
 		val xml = XML.loadString(IOUtils.toString(this.getClass.getResource("/properties.xml").openStream()));
@@ -19,7 +19,8 @@ class Shell {
 		map;
 	}
 
-	def run() {
+	def run(classPath: String) {
+		logger.debug(s"class path: $classPath");
 		val repl: ILoop = new ILoop {
 			override def createInterpreter() = {
 				super.createInterpreter();
@@ -43,8 +44,10 @@ class Shell {
 		val settings = new Settings;
 		settings.feature.value = false;
 		settings.Yreplsync.value = true;
+		//settings.Ylogcp.value = true;
 		//use when launching normally outside SBT
 		settings.usejavacp.value = true;
+		settings.classpath.value = classPath;
 		settings.debug.value = false;
 		repl.process(settings);
 		//FIXME: do not stop!! seperate server and shell

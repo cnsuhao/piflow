@@ -3,6 +3,7 @@ package cn.piflow.runner
 import java.util.concurrent.atomic.AtomicInteger
 
 import cn.piflow._
+import org.apache.spark.sql.SparkSession
 import org.quartz.impl.StdSchedulerFactory
 import org.quartz.{Job, JobBuilder, JobExecutionContext, TriggerBuilder}
 
@@ -33,6 +34,7 @@ object SparkRunner extends Runner with Logging {
 			logger.warn("Runner is to be shutdown, while there are running jobs!");
 
 		quartzScheduler.shutdown();
+		SparkSession.builder.master("local[4]").getOrCreate().stop();
 	}
 
 	def run(flowGraph: FlowGraph, timeout: Long = 0): ScheduledJob = {
